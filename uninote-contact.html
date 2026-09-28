@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uninote — Tutor for Student in University</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1a2744;
+      --teal: #2cb5b0;
+      --teal-light: #e8f8f7;
+      --cream: #faf8f5;
+      --gray-text: #555;
+      --shadow: 0 2px 16px rgba(26,39,68,0.10);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Prompt', 'Kanit', sans-serif;
+      background: var(--cream);
+      color: var(--navy);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #2a3f6e 100%);
+      color: #fff;
+      padding: 48px 24px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: 0; right: 0;
+      height: 80px;
+      background: var(--cream);
+      border-radius: 50% 50% 0 0;
+    }
+    .hero-logo {
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+    .hero-logo span { color: var(--teal); }
+    .hero-tagline {
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-bottom: 16px;
+    }
+    .hero-motto {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 12px;
+      font-weight: 400;
+      opacity: 0.7;
+    }
+    .hero-motto span::before {
+      content: '✦ ';
+      color: var(--teal);
+    }
+
+    /* Section */
+    .section {
+      padding: 24px 20px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title .icon {
+      width: 28px; height: 28px;
+      background: var(--teal);
+      color: #fff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    /* About Card */
+    .about-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+    .about-card p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--gray-text);
+    }
+    .about-card p strong {
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    .highlight-text {
+      background: linear-gradient(120deg, var(--teal-light) 0%, #dff5f4 100%);
+      border-left: 4px solid var(--teal);
+      border-radius: 0 12px 12px 0;
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: var(--navy);
+    }
+
+    /* Service Cards */
+    .services {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .service-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .service-icon {
+      width: 44px; height: 44px;
+      background: var(--teal-light);
+      color: var(--teal);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .service-info h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .service-info p {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--gray-text);
+      line-height: 1.6;
+    }
+
+    /* Why Us */
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .why-item {
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px 14px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .why-item .emoji {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+    .why-item h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .why-item p {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--gray-text);
+      line-height: 1.5;
+    }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 32px 20px 48px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--teal) 0%, #1e9e9a 100%);
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Prompt', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 14px 36px;
+      border-radius: 50px;
+      box-shadow: 0 4px 20px rgba(44,181,176,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta-button:active {
+      transform: scale(0.97);
+      box-shadow: 0 2px 10px rgba(44,181,176,0.25);
+    }
+    .cta-sub {
+      font-size: 12px;
+      font-weight: 300;
+      color: var(--gray-text);
+      margin-top: 12px;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 11px;
+      color: #aaa;
+      font-weight: 300;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-logo">uni<span>note</span></div>
+    <div class="hero-tagline">Tutor for Student in University</div>
+    <div class="hero-motto">
+      <span>Learn</span>
+      <span>Understand</span>
+      <span>Achieve</span>
+    </div>
+  </div>
+
+  <!-- About -->
+  <div class="section">
+    <div class="section-title">
+      <div class="icon">👋</div>
+      เกี่ยวกับเรา
+    </div>
+    <div class="about-card">
+      <p>
+        <strong>Uninote</strong> คือบริการ <strong>สรุปเนื้อหา</strong> และ <strong>รับติวสอบ</strong> สำหรับน้อง ๆ นักศึกษามหาวิทยาลัย
+        <br><br>
+        เราเข้าใจว่าการเรียนในมหาลัยไม่เหมือนมัธยม — เนื้อหาเยอะ เวลาน้อย บางทีอ่านเองก็งง 😵‍💫
+        <br><br>
+        สรุปของเราเขียนโดย <strong>รุ่นพี่ที่เกรดดี ผ่านการเรียนมาจริง</strong> เข้าใจจุดที่น้อง ๆ มักสับสน และเรียบเรียงให้กระชับ อ่านง่าย พร้อมสอบ
+      </p>
+    </div>
+
+    <div class="highlight-text">
+      🎯 เปิดให้ <strong>ดูตัวอย่างฟรีก่อนตัดสินใจ</strong><br>
+      ไม่ต้องกลัวว่าจะซื้อมาแล้วไม่ตรงปก!
+    </div>
+  </div>
+
+  <!-- Services -->
+  <div class="section">
+    <div class="section-title">
+      <div class="icon">⚡</div>
+      บริการของเรา
+    </div>
+    <div class="services">
+      <div class="service-card">
+        <div class="service-icon">📝</div>
+        <div class="service-info">
+          <h3>สรุปเนื้อหารายวิชา</h3>
+          <p>สรุปกระชับ เข้าใจง่าย ครบทุกหัวข้อที่ออกสอบ เริ่มต้นเพียง 39 บาท</p>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">💻</div>
+        <div class="service-info">
+          <h3>รับติวออนไลน์ทุกวิชา</h3>
+          <p>ติวตัวต่อตัวหรือกลุ่มย่อย อธิบายจนเข้าใจ พร้อมตอบทุกข้อสงสัย</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Why Us -->
+  <div class="section">
+    <div class="section-title">
+      <div class="icon">✨</div>
+      ทำไมต้อง Uninote?
+    </div>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="emoji">📖</div>
+        <h4>สรุปกระชับ</h4>
+        <p>อ่านจบได้ในเวลาสั้น ไม่ต้องนั่งอ่านหนังสือเป็นร้อยหน้า</p>
+      </div>
+      <div class="why-item">
+        <div class="emoji">👀</div>
+        <h4>ดูตัวอย่างก่อนซื้อ</h4>
+        <p>เปิดให้ดูตัวอย่างฟรี มั่นใจก่อนตัดสินใจ</p>
+      </div>
+      <div class="why-item">
+        <div class="emoji">💸</div>
+        <h4>ราคาเข้าถึงง่าย</h4>
+        <p>เริ่มต้นเพียง 39 บาท คุ้มค่ากว่าซื้อกาแฟหนึ่งแก้ว</p>
+      </div>
+      <div class="why-item">
+        <div class="emoji">🎓</div>
+        <h4>เขียนโดยรุ่นพี่</h4>
+        <p>ผ่านการเรียนมาจริง รู้ว่าจุดไหนสำคัญ</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <a href="https://line.me/" class="cta-button">
+      💬 แชทกับพี่ ๆ เลย
+    </a>
+    <p class="cta-sub">ทักมาสอบถามได้ตลอดเลยนะ ไม่กัดจ้า 🐱</p>
+  </div>
+
+  <div class="footer">
+    © 2026 Uninote — Learn • Understand • Achieve
+  </div>
+
+</body>
+</html>
