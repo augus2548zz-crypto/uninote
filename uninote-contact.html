@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Uninote — Tutor for Student in University</title>
+  <link rel="icon" type="image/png" href="assets/Logouninote.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy: #1a2744;
+      --navy: #345190;
       --teal: #2cb5b0;
       --teal-light: #e8f8f7;
       --cream: #faf8f5;
@@ -43,6 +44,29 @@
       height: 80px;
       background: var(--cream);
       border-radius: 50% 50% 0 0;
+    }
+    .brand-logo-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .brand-logo {
+      width: 76px;
+      height: 76px;
+      border-radius: 20px;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 6px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.25), 0 0 0 3px rgba(44, 181, 176, 0.35);
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+      cursor: pointer;
+    }
+    .brand-logo:hover {
+      transform: scale(1.08) rotate(-1deg);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.3), 0 0 0 4px rgba(44, 181, 176, 0.6);
     }
     .hero-logo {
       font-size: 42px;
@@ -232,10 +256,23 @@
     /* Footer */
     .footer {
       text-align: center;
-      padding: 20px;
-      font-size: 11px;
-      color: #aaa;
+      padding: 24px 20px;
+      font-size: 12px;
+      color: #888;
       font-weight: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .footer-logo {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      object-fit: contain;
+      background: #fff;
+      padding: 2px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
     }
   </style>
 </head>
@@ -243,6 +280,9 @@
 
   <!-- Hero -->
   <div class="hero">
+    <div class="brand-logo-wrap">
+      <img src="assets/Logouninote.png" alt="Uninote Logo" class="brand-logo" onerror="this.style.display='none'">
+    </div>
     <div class="hero-logo">uni<span>note</span></div>
     <div class="hero-tagline">Tutor for Student in University</div>
     <div class="hero-motto">
@@ -330,14 +370,15 @@
 
   <!-- CTA -->
   <div class="cta-section">
-    <a href="https://line.me/" class="cta-button">
+    <a href="https://lin.ee/vH873C2" class="cta-button">
       💬 แชทกับพี่ ๆ เลย
     </a>
     <p class="cta-sub">ทักมาสอบถามได้ตลอดเลยนะ ไม่กัดจ้า 🐱</p>
   </div>
 
   <div class="footer">
-    © 2026 Uninote — Learn • Understand • Achieve
+    <img src="assets/Logouninote.png" alt="Uninote" class="footer-logo" onerror="this.style.display='none'">
+    <span>© 2026 Uninote — Learn • Understand • Achieve</span>
   </div>
 
 </body>
