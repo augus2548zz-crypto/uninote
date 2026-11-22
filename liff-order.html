@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>UniNOTE KUSRC — ชีทสรุป &amp; คอร์สติว</title>
+  <link rel="icon" type="image/png" href="assets/Logouninote.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+  <style>
+    :root {
+      --bg-page: #faf9f6;
+      --bg-card: #ffffff;
+      --bg-soft: #f2efe9;
+      --text-main: #23221f;
+      --text-sub: #57534e;
+      --text-muted: #78716c;
+      --border: #e5e0d8;
+      --border-strong: #d4cdc2;
+
+      /* Warm, Natural, Human-Crafted Palette */
+      --primary: #1f6f54;
+      --primary-dark: #185742;
+      --primary-soft: #eef6f2;
+      --primary-border: #c5dfd2;
+
+      --accent-navy: #1e3a5f;
+      --accent-navy-soft: #f0f4f8;
+      --accent-navy-border: #cdd9e5;
+
+      --warm-tint: #f8f4ec;
+      --warm-border: #e4d8c3;
+      --warm-text: #8a5a18;
+
+      --danger: #c53030;
+      --danger-soft: #fef2f2;
+      --radius-lg: 12px;
+      --radius-md: 10px;
+      --radius-pill: 9999px;
+      --font: 'IBM Plex Sans Thai', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      font-family: var(--font);
+      background: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    button, input {
+      font-family: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: var(--bg-page);
+      padding-bottom: 108px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Clean Solid Header */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 16px 8px;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      object-fit: contain;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      padding: 2px;
+    }
+
+    .brand-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.2px;
+    }
+
+    .brand-badge {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--primary);
+      background: var(--primary-soft);
+      border: 1px solid var(--primary-border);
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* 4-Tab Nav */
+    .nav-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 0 12px 10px;
+    }
+
+    .nav-tab {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 4px;
+      border-radius: var(--radius-md);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-sub);
+      background: var(--bg-soft);
+      border: 1px solid transparent;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-tab.active {
+      background: var(--primary);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Tab Panels */
+    .tab-panel {
+      display: none;
+      padding: 14px 14px 22px;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    /* Clean 1-Line Info Strip */
+    .info-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--primary-border);
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      padding: 9px 12px;
+      border-radius: var(--radius-md);
+      font-size: 12.5px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    /* Category Filter Pills */
+    .filter-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+      scrollbar-width: none;
+    }
+
+    .filter-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-pill {
+      flex-shrink: 0;
+      padding: 6px 13px;
+      border-radius: var(--radius-pill);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-sub);
+    }
+
+    .filter-pill.active {
+      background: var(--accent-navy);
+      border-color: var(--accent-navy);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Note Cards */
+    .cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .note-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      transition: border-color 0.15s ease;
+    }
+
+    .note-card.has-selected {
+      border-color: var(--primary);
+      background: #fcfefd;
+    }
+
+    .note-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .note-name {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .note-sub {
+      font-size: 12.5px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .btn-preview {
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-navy);
+      background: var(--accent-navy-soft);
+      border: 1px solid var(--accent-navy-border);
+      padding: 5px 11px;
+      border-radius: var(--radius-pill);
+    }
+
+    .note-topics {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--text-sub);
+      margin-bottom: 12px;
+    }
+
+    .note-topics strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .price-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .price-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 6px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background: #ffffff;
+      transition: background-color 0.14s ease, border-color 0.14s ease;
+    }
+
+    .price-btn .p-tier {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-sub);
+    }
+
+    .price-btn .p-num {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .price-btn.combo-opt {
+      border-color: var(--warm-border);
+      background: var(--warm-tint);
+    }
+
+    .price-btn.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .price-btn.selected .p-tier,
+    .price-btn.selected .p-num {
+      color: #ffffff;
+    }
+
+    /* Tutor Highlights Row */
+    .tutor-highlights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .hl-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 11px 8px;
+      text-align: center;
+    }
+
+    .hl-box.primary-tint {
+      background: var(--primary-soft);
+      border-color: var(--primary-border);
+    }
+
+    .hl-box.warn {
+      background: var(--warm-tint);
+      border-color: var(--warm-border);
+    }
+
+    .hl-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .hl-sub {
+      font-size: 11px;
+      color: var(--text-sub);
+    }
+
+    /* Section Card */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    .step-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 9px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .step-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--accent-navy);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Tutor Subject Chips */
+    .subj-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-bottom: 12px;
+    }
+
+    .subj-btn {
+      padding: 9px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-strong);
+      background: #ffffff;
+      text-align: left;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-main);
+      transition: background-color 0.14s ease, border-color 0.14s ease;
+    }
+
+    .subj-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Hours Stepper Row */
+    .hours-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      padding: 9px 12px;
+      border-radius: var(--radius-md);
+      margin-bottom: 10px;
+    }
+
+    .stepper {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      padding: 4px 8px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-strong);
+    }
+
+    .stepper button {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg-soft);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .stepper span {
+      font-size: 14px;
+      font-weight: 700;
+      min-width: 44px;
+      text-align: center;
+    }
+
+    .btn-add-tutor {
+      width: 100%;
+      padding: 12px;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 14.5px;
+      font-weight: 600;
+    }
+
+    /* Promo Card in Reviews Tab */
+    .promo-banner {
+      background: var(--primary-soft);
+      border: 1px solid var(--primary-border);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .promo-tag {
+      display: inline-block;
+      background: var(--accent-navy);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 6px;
+    }
+
+    .promo-banner h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .promo-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .promo-pill {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      color: var(--text-sub);
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* Reviews Grid */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .review-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .review-card img {
+      width: 100%;
+      height: 145px;
+      object-fit: contain;
+      background: var(--bg-page);
+      padding: 6px;
+      display: block;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .review-cap {
+      padding: 8px 9px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    .review-cta-box {
+      background: #ffffff;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      text-align: center;
+    }
+
+    .review-cta-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 3px;
+    }
+
+    .review-cta-sub {
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+    }
+
+    .review-cta-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .btn-cta-green {
+      padding: 10px;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .btn-cta-navy {
+      padding: 10px;
+      border-radius: var(--radius-md);
+      background: var(--accent-navy);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    /* How-to Steps */
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .how-card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 8px;
+      text-align: center;
+    }
+
+    .how-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-navy);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 5px;
+    }
+
+    .how-card h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .how-card p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* Short FAQ */
+    .faq-row {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .faq-q {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 3px;
+    }
+
+    .faq-a {
+      font-size: 12.5px;
+      color: var(--text-sub);
+    }
+
+    /* Floating Bottom Cart Bar */
+    .floating-cart {
+      position: fixed;
+      left: 50%;
+      bottom: max(12px, env(safe-area-inset-bottom));
+      transform: translateX(-50%) translateY(140%);
+      width: calc(100% - 24px);
+      max-width: 476px;
+      background: #ffffff;
+      border: 1.5px solid var(--primary);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      z-index: 50;
+      transition: transform 0.22s ease;
+    }
+
+    .floating-cart.visible {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .cart-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cart-badge {
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      border: 1px solid var(--primary-border);
+      font-size: 14px;
+      font-weight: 700;
+      min-width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-total {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+
+    .cart-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .btn-checkout {
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: var(--radius-md);
+      white-space: nowrap;
+    }
+
+    /* Checkout Sheet */
+    .sheet-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(35, 34, 31, 0.45);
+      z-index: 70;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .sheet-backdrop.open {
+      display: flex;
+    }
+
+    .sheet-box {
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+      border-radius: 18px 18px 0 0;
+      padding: 14px 16px max(22px, env(safe-area-inset-bottom));
+    }
+
+    .sheet-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--border-strong);
+      border-radius: 99px;
+      margin: 0 auto 12px;
+    }
+
+    .sheet-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .sheet-head h3 {
+      font-size: 16.5px;
+      font-weight: 700;
+    }
+
+    .btn-x {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      font-size: 15px;
+      color: var(--text-sub);
+    }
+
+    .cart-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-bottom: 12px;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 11px;
+      background: var(--bg-page);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+    }
+
+    .cart-item-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .cart-item-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    .btn-del {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--danger-soft);
+      border: 1px solid #fecaca;
+      color: var(--danger);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--text-main);
+    }
+
+    .input-box {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      font-size: 13.5px;
+      outline: none;
+      margin-bottom: 10px;
+      background: #ffffff;
+      color: var(--text-main);
+    }
+
+    .input-box:focus {
+      border-color: var(--primary);
+    }
+
+    .input-box.invalid {
+      border-color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .err-msg {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--danger);
+      margin: -6px 0 10px;
+      display: none;
+    }
+
+    .total-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--primary-soft);
+      border: 1px solid var(--primary-border);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+    }
+
+    .btn-send-line {
+      width: 100%;
+      padding: 13px;
+      border-radius: var(--radius-md);
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .fallback-box {
+      margin-top: 12px;
+      padding: 11px;
+      border-radius: var(--radius-md);
+      background: var(--bg-page);
+      border: 1px solid var(--primary-border);
+      display: none;
+    }
+
+    .fallback-box.show {
+      display: block;
+    }
+
+    .fallback-pre {
+      font-family: var(--font);
+      font-size: 12.5px;
+      white-space: pre-wrap;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px;
+      margin: 7px 0 9px;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 20, 18, 0.9);
+      z-index: 90;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-top {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      right: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 75vh;
+      border-radius: 10px;
+      background: #ffffff;
+    }
+
+    .lightbox-nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .lightbox-nav button {
+      padding: 7px 14px;
+      border-radius: var(--radius-pill);
+      background: rgba(255, 255, 255, 0.18);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      top: 72px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      background: var(--text-main);
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 12.5px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Clean Minimal Header -->
+    <header class="app-header">
+      <div class="header-top">
+        <div class="brand-row">
+          <img src="assets/Logouninote.png" alt="UniNOTE" class="brand-logo" onerror="this.style.display='none'">
+          <div class="brand-title">UniNOTE</div>
+        </div>
+        <div class="brand-badge" id="liffUserName">KUSRC</div>
+      </div>
+
+      <nav class="nav-tabs">
+        <button class="nav-tab active" data-tab="notes" onclick="switchTab('notes')">ชีทสรุป</button>
+        <button class="nav-tab" data-tab="tutor" onclick="switchTab('tutor')">ติวเดี่ยว</button>
+        <button class="nav-tab" data-tab="reviews" onclick="switchTab('reviews')">รีวิว</button>
+        <button class="nav-tab" data-tab="faq" onclick="switchTab('faq')">วิธีซื้อ</button>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ================================================================
+           TAB 1: ชีทสรุป (6 วิชา KUSRC)
+           ================================================================ -->
+      <section class="tab-panel active" id="panel-notes">
+        <div class="info-strip">
+          <span>ไฟล์ PDF ส่งเข้า Google Drive</span>
+          <span>แตะเลือกราคาได้เลย</span>
+        </div>
+
+        <div class="filter-row" id="noteFilterRow">
+          <button class="filter-pill active" onclick="filterNotes('all', this)">ทั้งหมด (6)</button>
+          <button class="filter-pill" onclick="filterNotes('econ', this)">เศรษฐศาสตร์</button>
+          <button class="filter-pill" onclick="filterNotes('quant', this)">คำนวณ &amp; การเงิน</button>
+          <button class="filter-pill" onclick="filterNotes('mgmt', this)">บริหาร</button>
+        </div>
+
+        <div class="cards-stack" id="notesContainer"></div>
+      </section>
+
+      <!-- ================================================================
+           TAB 2: ติวเดี่ยว (เลือกวิชา หรือ กรอกเองได้)
+           ================================================================ -->
+      <section class="tab-panel" id="panel-tutor">
+        <div class="tutor-highlights">
+          <div class="hl-box primary-tint">
+            <div class="hl-title">ติวเดี่ยว 150฿/ชม.</div>
+            <div class="hl-sub">ไม่มีขั้นต่ำ • นัดเวลาเอง</div>
+          </div>
+          <div class="hl-box warn">
+            <div class="hl-title">ส่งบทเรียนมาก่อน</div>
+            <div class="hl-sub">ไม่แถมชีท (ซื้อเพิ่มได้)</div>
+          </div>
+          <div class="hl-box">
+            <div class="hl-title">ถามได้ตลอด</div>
+            <div class="hl-sub">ผ่านแชท LINE</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="step-title"><span class="step-dot">1</span> เลือกรายวิชา หรือกรอกเอง</div>
+
+          <div class="subj-grid" id="tutorSubjectChips">
+            <button type="button" class="subj-btn active" onclick="pickTutorSubject('Microeconomics', this)">Microeconomics</button>
+            <button type="button" class="subj-btn" onclick="pickTutorSubject('Macroeconomics', this)">Macroeconomics</button>
+            <button type="button" class="subj-btn" onclick="pickTutorSubject('Math for Business', this)">Math for Business</button>
+            <button type="button" class="subj-btn" onclick="pickTutorSubject('Financial Management I', this)">Financial Management I</button>
+            <button type="button" class="subj-btn" onclick="pickTutorSubject('Principle of Production', this)">Principle of Production</button>
+            <button type="button" class="subj-btn" onclick="pickTutorSubject('Principles of Marketing', this)">Principles of Marketing</button>
+          </div>
+
+          <label class="field-label" for="customSubjectInput">รายวิชาที่ต้องการ (กรอกเองได้)</label>
+          <input type="text" id="customSubjectInput" class="input-box" placeholder="พิมพ์ชื่อวิชาหรือรหัสวิชา KUSRC ที่ต้องการติว" oninput="onCustomSubjectInput()">
+
+          <div class="step-title" style="margin-top:4px;"><span class="step-dot">2</span> เลือกจำนวนชั่วโมง &amp; นัดเวลา</div>
+
+          <div class="hours-row">
+            <div>
+              <div style="font-size:13.5px; font-weight:600;">จำนวนชั่วโมง</div>
+              <div style="font-size:11.5px; color:var(--text-muted);">150฿/ชม. • ไม่มีขั้นต่ำ</div>
+            </div>
+            <div class="stepper">
+              <button type="button" onclick="changeTutorHours(-1)">−</button>
+              <span id="tutorHoursDisplay">1 ชม.</span>
+              <button type="button" onclick="changeTutorHours(1)">+</button>
+            </div>
+          </div>
+
+          <input type="text" id="tutorTimeInput" class="input-box" placeholder="วันที่และเวลาที่สะดวก (เช่น เสาร์ 15/11 เวลา 14:00)">
+
+          <button type="button" class="btn-add-tutor" onclick="addTutorToCart()">
+            + เพิ่มติวเดี่ยว (<span id="tutorCalcPrice">150</span>฿)
+          </button>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           TAB 3: รีวิว + ข้อความส่งเสริมการขาย
+           ================================================================ -->
+      <section class="tab-panel" id="panel-reviews">
+        <div class="promo-banner">
+          <span class="promo-tag">นิสิต KUSRC กว่า 200+ คนเลือกใช้</span>
+          <h3>อ่านตรงจุด ประหยัดเวลา อัปเกรดได้จริง</h3>
+          <div class="promo-pills">
+            <span class="promo-pill">สรุปกระชับ อ่านไวก่อนสอบ</span>
+            <span class="promo-pill">เหมา Mid+Final คุ้มกว่า</span>
+            <span class="promo-pill">ติวเดี่ยวเจาะจุดอ่อน 150฿/ชม.</span>
+          </div>
+        </div>
+
+        <div class="reviews-grid" id="reviewsGrid"></div>
+
+        <div class="review-cta-box">
+          <div class="review-cta-title">เตรียมตัวสอบเทอมนี้ เริ่มได้เลยตอนนี้</div>
+          <div class="review-cta-sub">กดสั่งในแอป ไม่ต้องรอแอดมินตอบ • ส่งไฟล์เข้า Gmail ทันที</div>
+          <div class="review-cta-btns">
+            <button type="button" class="btn-cta-green" onclick="switchTab('notes')">ซื้อชีทสรุป (39฿+)</button>
+            <button type="button" class="btn-cta-navy" onclick="switchTab('tutor')">จองติวเดี่ยว (150฿)</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           TAB 4: วิธีซื้อ & FAQ สั้นกระชับ
+           ================================================================ -->
+      <section class="tab-panel" id="panel-faq">
+        <div class="how-grid">
+          <div class="how-card">
+            <div class="how-num">1</div>
+            <h4>เลือกวิชา</h4>
+            <p>แตะเลือกชีทหรือติว</p>
+          </div>
+          <div class="how-card">
+            <div class="how-num">2</div>
+            <h4>กรอก Gmail</h4>
+            <p>กดส่งเข้าแชท LINE</p>
+          </div>
+          <div class="how-card">
+            <div class="how-num">3</div>
+            <h4>โอน &amp; ส่งสลิป</h4>
+            <p>รับไฟล์ Google Drive</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="faq-row">
+            <div class="faq-q">ชีทสรุป vs ติวเดี่ยว ต่างกันยังไง?</div>
+            <div class="faq-a">ชีทสรุป = ไฟล์ PDF อ่านเอง (39–89฿) • ติวเดี่ยว = สอนตัวต่อตัว 150฿/ชม. นัดเวลาเองได้ (ไม่แถมชีท กดซื้อเพิ่มรวมกันได้)</div>
+          </div>
+          <div class="faq-row">
+            <div class="faq-q">ทำไมต้องกรอก Gmail?</div>
+            <div class="faq-a">แชร์ไฟล์ผ่าน Google Drive เข้า Gmail โดยตรง เปิดอ่านได้ทั้ง iPad / มือถือ / คอม</div>
+          </div>
+          <div class="faq-row">
+            <div class="faq-q">แอดมินตอบแชทกี่โมง?</div>
+            <div class="faq-a">รอบตรวจสอบ 12:00 / 18:00 / 22:00 น. (ส่งออเดอร์และสลิปทิ้งไว้ได้เลย)</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Floating Bottom Cart Bar -->
+    <div class="floating-cart" id="floatingCart">
+      <div class="cart-left">
+        <div class="cart-badge" id="cartCountBadge">0</div>
+        <div>
+          <div class="cart-total" id="cartTotalPrice">0฿</div>
+          <div class="cart-sub" id="cartCountText">0 รายการ</div>
+        </div>
+      </div>
+      <button type="button" class="btn-checkout" onclick="openCheckout()">สั่งซื้อ &amp; กรอก Gmail ➔</button>
+    </div>
+
+    <!-- Checkout Bottom Sheet -->
+    <div class="sheet-backdrop" id="checkoutBackdrop" onclick="closeCheckout(event)">
+      <div class="sheet-box" onclick="event.stopPropagation()">
+        <div class="sheet-handle"></div>
+        <div class="sheet-head">
+          <h3>สรุปออเดอร์ KUSRC</h3>
+          <button type="button" class="btn-x" onclick="closeCheckout()">✕</button>
+        </div>
+
+        <div class="cart-list" id="checkoutCartList"></div>
+
+        <div class="total-bar">
+          <span style="font-size:14px; font-weight:600;">ยอดโอนรวม</span>
+          <span style="font-size:20px; font-weight:700; color:var(--primary-dark);" id="checkoutTotalAmount">0฿</span>
+        </div>
+
+        <label class="field-label" for="gmailInput">Gmail รับไฟล์ (@gmail.com หรือ @ku.th)</label>
+        <input type="email" id="gmailInput" class="input-box" placeholder="example@gmail.com" autocomplete="email">
+        <div class="err-msg" id="gmailError">กรุณากรอก @gmail.com หรือ @ku.th ให้ถูกต้อง</div>
+
+        <label class="field-label" for="noteInput">หมายเหตุเพิ่มเติม (ถ้ามี)</label>
+        <input type="text" id="noteInput" class="input-box" placeholder="ระบุข้อความเพิ่มเติมถึงพี่ติว">
+
+        <button type="button" class="btn-send-line" id="confirmOrderBtn" onclick="submitOrder()">
+          ส่งออเดอร์เข้าแชท LINE ➔
+        </button>
+
+        <div class="fallback-box" id="fallbackBox">
+          <div style="font-size:12.5px; font-weight:600; color:var(--primary-dark);">✓ คัดลอกออเดอร์แล้ว กดเปิด LINE เพื่อวางส่งได้เลย</div>
+          <pre class="fallback-pre" id="fallbackPre"></pre>
+          <a href="https://lin.ee/vH873C2" target="_blank" rel="noopener noreferrer" class="btn-send-line" style="display:block; text-align:center; text-decoration:none;">
+            เปิดแชท LINE ↗
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+      <div class="lightbox-top" onclick="event.stopPropagation()">
+        <span id="lightboxTitle">ตัวอย่างชีท</span>
+        <button type="button" onclick="closeLightbox()" style="color:#fff; font-size:20px; padding:4px 10px;">✕</button>
+      </div>
+      <img id="lightboxImg" class="lightbox-img" src="" alt="Preview" onclick="event.stopPropagation()">
+      <div class="lightbox-nav" id="lightboxNav" onclick="event.stopPropagation()">
+        <button type="button" onclick="stepLightbox(-1)">◀ ก่อนหน้า</button>
+        <span id="lightboxCounter" style="color:#fff; font-size:13px;">1/1</span>
+        <button type="button" onclick="stepLightbox(1)">ถัดไป ▶</button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const UNINOTE_CONFIG = {
+      LIFF_ID: urlParams.get('liffId') || "",
+      LINE_OA_URL: "https://lin.ee/vH873C2"
+    };
+
+    const NOTES_DATA = [
+      {
+        id: "econ", category: "econ", name: "Microeconomics", sub: "เศรษฐศาสตร์จุลภาค",
+        mid: 49, fin: 49, combo: 89,
+        topics: "Consumer Choice • กราฟต้นทุน • ตลาดสมบูรณ์/ผูกขาด",
+        images: ["previews/preview_micro_1.png", "previews/preview_micro_2.png", "previews/preview_micro_3.png", "previews/preview_micro_4.png"]
+      },
+      {
+        id: "macro", category: "econ", name: "Macroeconomics", sub: "เศรษฐศาสตร์มหภาค",
+        mid: 45, fin: 45, combo: 79,
+        topics: "Keynesian Cross • Fiscal & Monetary • IS-LM • FX",
+        images: ["previews/preview_macro_1.jpg", "previews/preview_macro_2.jpg", "previews/preview_macro_3.jpg"]
+      },
+      {
+        id: "math", category: "quant", name: "Math for Business", sub: "คณิตศาสตร์ธุรกิจ",
+        mid: 39, fin: 39, combo: 69,
+        topics: "ดอกเบี้ยเดี่ยว/ทบต้น • Annuity • Present Value",
+        images: ["previews/preview_math_1.jpg", "previews/preview_math_2.jpg", "previews/preview_math_3.jpg"]
+      },
+      {
+        id: "finance", category: "quant", name: "Financial Management I", sub: "การจัดการการเงิน I",
+        mid: 49, fin: 49, combo: 89,
+        topics: "อัตราส่วนการเงิน • TVM • NPV & IRR • WACC",
+        images: ["previews/preview_math_2.jpg"]
+      },
+      {
+        id: "mkt", category: "mgmt", name: "Principles of Marketing", sub: "หลักการตลาด",
+        mid: 45, fin: 45, combo: 79,
+        topics: "STP • 4Ps & 7Ps • พฤติกรรมผู้บริโภค • Mindmap",
+        images: ["previews/preview_micro_1.png"]
+      },
+      {
+        id: "prod", category: "mgmt", name: "Principle of Production", sub: "หลักการผลิต",
+        mid: 45, fin: 45, combo: 79,
+        topics: "แผนกำลังผลิต • Layout • Inventory • EOQ",
+        images: ["previews/preview_ppo_1.jpg", "previews/preview_ppo_2.jpg", "previews/preview_ppo_3.jpg"]
+      }
+    ];
+
+    const REVIEWS_DATA = [
+      { img: "reviews/review_1.png", cap: "★ สรุปตรงข้อสอบ อ่านคืนเดียวเอาอยู่" },
+      { img: "reviews/review_2.png", cap: "★ เข้าใจไว ทำโจทย์ได้จริง" },
+      { img: "reviews/review_3.png", cap: "★ จากเกือบไม่รอด อัปเกรดได้ B" },
+      { img: "reviews/review_4.png", cap: "★ พี่ติวใจดี สงสัยถามได้ตลอด" }
+    ];
+
+    let cart = [];
+    let currentCat = "all";
+    let selectedTutorSubject = "Microeconomics";
+    let tutorHours = 1;
+    let isLiffReady = false;
+    let lbImages = [];
+    let lbIdx = 0;
+
+    async function initApp() {
+      const saved = localStorage.getItem('uninote_gmail');
+      if (saved) document.getElementById('gmailInput').value = saved;
+
+      const tab = urlParams.get('tab');
+      if (['notes', 'tutor', 'reviews', 'faq'].includes(tab)) switchTab(tab);
+
+      renderNotes();
+      renderReviews();
+      updateTutorUI();
+
+      if (UNINOTE_CONFIG.LIFF_ID && typeof liff !== 'undefined') {
+        try {
+          await liff.init({ liffId: UNINOTE_CONFIG.LIFF_ID });
+          isLiffReady = true;
+          if (liff.isLoggedIn()) {
+            const p = await liff.getProfile();
+            document.getElementById('liffUserName').textContent = p.displayName;
+          }
+        } catch (e) { console.warn(e); }
+      }
+    }
+
+    function switchTab(t) {
+      document.querySelectorAll('.nav-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === t));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `panel-${t}`));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function filterNotes(cat, btn) {
+      currentCat = cat;
+      document.querySelectorAll('#noteFilterRow .filter-pill').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderNotes();
+    }
+
+    function hasItem(uid) {
+      return cart.some(i => i.uid === uid);
+    }
+
+    function renderNotes() {
+      const list = currentCat === 'all' ? NOTES_DATA : NOTES_DATA.filter(n => n.category === currentCat);
+      document.getElementById('notesContainer').innerHTML = list.map(n => {
+        const sMid = hasItem(`note_${n.id}_mid`);
+        const sFin = hasItem(`note_${n.id}_fin`);
+        const sCom = hasItem(`note_${n.id}_com`);
+
+        return `
+          <article class="note-card ${(sMid || sFin || sCom) ? 'has-selected' : ''}">
+            <div class="note-top">
+              <div>
+                <div class="note-name">${n.name}</div>
+                <div class="note-sub">${n.sub}</div>
+              </div>
+              <button type="button" class="btn-preview" onclick="openPreview('${n.id}')">ดูตัวอย่าง</button>
+            </div>
+            <div class="note-topics"><strong>เนื้อหา:</strong> ${n.topics}</div>
+            <div class="price-grid">
+              <button type="button" class="price-btn ${sMid ? 'selected' : ''}" onclick="toggleNote('${n.id}','mid')">
+                <span class="p-tier">${sMid ? '✓ ' : ''}Midterm</span>
+                <span class="p-num">${n.mid}฿</span>
+              </button>
+              <button type="button" class="price-btn ${sFin ? 'selected' : ''}" onclick="toggleNote('${n.id}','fin')">
+                <span class="p-tier">${sFin ? '✓ ' : ''}Final</span>
+                <span class="p-num">${n.fin}฿</span>
+              </button>
+              <button type="button" class="price-btn combo-opt ${sCom ? 'selected' : ''}" onclick="toggleNote('${n.id}','com')">
+                <span class="p-tier">${sCom ? '✓ ' : ''}Mid+Final</span>
+                <span class="p-num">${n.combo}฿</span>
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function toggleNote(id, tier) {
+      const n = NOTES_DATA.find(x => x.id === id);
+      const uid = `note_${id}_${tier}`;
+      const idx = cart.findIndex(x => x.uid === uid);
+      if (idx > -1) {
+        cart.splice(idx, 1);
+      } else {
+        if (tier === 'com') cart = cart.filter(x => x.uid !== `note_${id}_mid` && x.uid !== `note_${id}_fin`);
+        else cart = cart.filter(x => x.uid !== `note_${id}_com`);
+
+        const label = { mid: 'Midterm', fin: 'Final', com: 'Mid+Final' }[tier];
+        const price = { mid: n.mid, fin: n.fin, com: n.combo }[tier];
+        cart.push({ uid, title: `ชีท ${n.name} (${label})`, sub: 'ไฟล์ PDF', price });
+        showToast(`✓ เพิ่มชีท ${n.name} (${label})`);
+      }
+      renderNotes();
+      updateCart();
+    }
+
+    /* Private Tutor Only + Custom Subject Input */
+    function pickTutorSubject(name, btn) {
+      selectedTutorSubject = name;
+      document.getElementById('customSubjectInput').value = "";
+      document.querySelectorAll('#tutorSubjectChips .subj-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    }
+
+    function onCustomSubjectInput() {
+      const val = document.getElementById('customSubjectInput').value.trim();
+      if (val) {
+        document.querySelectorAll('#tutorSubjectChips .subj-btn').forEach(b => b.classList.remove('active'));
+        selectedTutorSubject = val;
+      }
+    }
+
+    function changeTutorHours(d) {
+      const next = tutorHours + d;
+      if (next < 1 || next > 20) return;
+      tutorHours = next;
+      updateTutorUI();
+    }
+
+    function updateTutorUI() {
+      document.getElementById('tutorHoursDisplay').textContent = `${tutorHours} ชม.`;
+      document.getElementById('tutorCalcPrice').textContent = (150 * tutorHours).toLocaleString();
+    }
+
+    function addTutorToCart() {
+      const customVal = document.getElementById('customSubjectInput').value.trim();
+      const subjName = customVal || selectedTutorSubject;
+      if (!subjName) {
+        showToast("กรุณาเลือกหรือพิมพ์ชื่อรายวิชาครับ");
+        document.getElementById('customSubjectInput').focus();
+        return;
+      }
+
+      const timeNote = document.getElementById('tutorTimeInput').value.trim();
+      const price = 150 * tutorHours;
+      const sub = timeNote ? `${tutorHours} ชม. • ${timeNote}` : `${tutorHours} ชม. • นัดเวลาในแชท`;
+
+      cart.push({ uid: `tutor_${Date.now()}`, title: `ติวเดี่ยว ${subjName}`, sub, price });
+      document.getElementById('tutorTimeInput').value = "";
+      updateCart();
+      showToast(`✓ เพิ่มติวเดี่ยว ${subjName} (${price}฿)`);
+    }
+
+    function renderReviews() {
+      document.getElementById('reviewsGrid').innerHTML = REVIEWS_DATA.map((r, i) => `
+        <div class="review-card" onclick="openReviewLightbox(${i})">
+          <img src="${r.img}" alt="${r.cap}" loading="lazy">
+          <div class="review-cap">${r.cap}</div>
+        </div>
+      `).join('');
+    }
+
+    /* Cart & Checkout */
+    function updateCart() {
+      const total = cart.reduce((a, b) => a + b.price, 0);
+      document.getElementById('cartCountBadge').textContent = cart.length;
+      document.getElementById('cartCountText').textContent = `${cart.length} รายการ`;
+      document.getElementById('cartTotalPrice').textContent = `${total.toLocaleString()}฿`;
+      document.getElementById('checkoutTotalAmount').textContent = `${total.toLocaleString()}฿`;
+      document.getElementById('floatingCart').classList.toggle('visible', cart.length > 0);
+      renderCartItems();
+    }
+
+    function renderCartItems() {
+      document.getElementById('checkoutCartList').innerHTML = cart.map((item, i) => `
+        <div class="cart-item">
+          <div>
+            <div class="cart-item-title">${item.title}</div>
+            <div class="cart-item-sub">${item.sub}</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-size:14px; font-weight:700;">${item.price.toLocaleString()}฿</span>
+            <button type="button" class="btn-del" onclick="removeCart(${i})">×</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function removeCart(i) {
+      cart.splice(i, 1);
+      renderNotes();
+      updateCart();
+      if (!cart.length) closeCheckout();
+    }
+
+    function openCheckout() {
+      document.getElementById('fallbackBox').classList.remove('show');
+      document.getElementById('gmailError').style.display = 'none';
+      document.getElementById('gmailInput').classList.remove('invalid');
+      renderCartItems();
+      document.getElementById('checkoutBackdrop').classList.add('open');
+    }
+
+    function closeCheckout(e) {
+      if (e && e.target !== document.getElementById('checkoutBackdrop')) return;
+      document.getElementById('checkoutBackdrop').classList.remove('open');
+    }
+
+    async function submitOrder() {
+      if (!cart.length) return;
+      const input = document.getElementById('gmailInput');
+      const err = document.getElementById('gmailError');
+      const gmail = input.value.trim();
+      const note = document.getElementById('noteInput').value.trim();
+
+      if (!/^[^\s@]+@(gmail\.com|ku\.th|ku\.ac\.th)$/i.test(gmail)) {
+        input.classList.add('invalid');
+        err.style.display = 'block';
+        input.focus();
+        return;
+      }
+
+      input.classList.remove('invalid');
+      err.style.display = 'none';
+      localStorage.setItem('uninote_gmail', gmail);
+
+      const total = cart.reduce((a, b) => a + b.price, 0);
+      const hasTutor = cart.some(i => i.uid.startsWith('tutor_'));
+      const lines = [
+        "ออเดอร์ UniNOTE KUSRC",
+        ...cart.map(i => `• ${i.title} (${i.sub}) — ${i.price}฿`),
+        `รวมทั้งหมด: ${total.toLocaleString()}฿`,
+        `Gmail: ${gmail}`
+      ];
+      if (note) lines.push(`หมายเหตุ: ${note}`);
+      if (hasTutor) lines.push("* อย่าลืมส่งไฟล์บทเรียนที่ต้องการติวเข้ามาในแชทนี้ล่วงหน้านะครับ");
+      lines.push("กดปุ่ม \"วิธีการสั่งซื้อ\" เพื่อดู QR โอนเงิน แล้วส่งสลิปในแชทนี้ได้เลยครับ");
+      const msg = lines.join('\n');
+
+      if (isLiffReady && typeof liff !== 'undefined' && liff.isInClient()) {
+        try {
+          await liff.sendMessages([{ type: 'text', text: msg }]);
+          liff.closeWindow();
+          return;
+        } catch (e) { console.error(e); }
+      }
+
+      try { await navigator.clipboard.writeText(msg); } catch (_) {}
+      document.getElementById('fallbackPre').textContent = msg;
+      document.getElementById('fallbackBox').classList.add('show');
+      showToast("✓ คัดลอกออเดอร์แล้ว");
+    }
+
+    /* Lightbox & Toast */
+    function openPreview(id) {
+      const n = NOTES_DATA.find(x => x.id === id);
+      if (!n || !n.images.length) return;
+      lbImages = n.images;
+      lbIdx = 0;
+      document.getElementById('lightboxTitle').textContent = `ตัวอย่าง ${n.name}`;
+      updateLightbox();
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    function openReviewLightbox(i) {
+      lbImages = REVIEWS_DATA.map(r => r.img);
+      lbIdx = i;
+      document.getElementById('lightboxTitle').textContent = "รีวิว UniNOTE KUSRC";
+      updateLightbox();
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    function updateLightbox() {
+      document.getElementById('lightboxImg').src = lbImages[lbIdx];
+      document.getElementById('lightboxCounter').textContent = `${lbIdx + 1}/${lbImages.length}`;
+      document.getElementById('lightboxNav').style.display = lbImages.length > 1 ? 'flex' : 'none';
+    }
+
+    function stepLightbox(d) {
+      lbIdx = (lbIdx + d + lbImages.length) % lbImages.length;
+      updateLightbox();
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+
+    let tTimer;
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(tTimer);
+      tTimer = setTimeout(() => el.classList.remove('show'), 2000);
+    }
+
+    window.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>
